@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  redis: 
+    image: redis:6.0.10
+    command: redis-server
+    volumes:
+      - .:/redis_data
+    ports: 
+      - "6379:6379"
+
+  bot: 
+    build: ./bot
+    environment: 
+      - TOKEN_BOT=token_here
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+    tty: true
+    volumes: 
+      - .:/code
+    depends_on: 
+      - redis
+    
